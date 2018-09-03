@@ -153,7 +153,7 @@
 
           console.log(newFriend);
      
-          $.post('/api/friends', friend).then(function (data) {
+          $.post('/api/friends', newFriend).then(function (data) {
                 var matchName = data.name;
                 var matchPhoto = data.photo;
                 var modalHtml =

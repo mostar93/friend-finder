@@ -3,8 +3,6 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var path = require("path");
-var chartApiRoutes = require("./app/routing/apiRoutes");
-var chartHTMLRoutes = require("./app/routing/htmlRoutes");
 
 var app = express();
 
@@ -14,8 +12,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
-app.use("/", chartHTMLRoutes);
-app.use("/survey", chartHTMLRoutes);
+var htmlRoutes = require('./app/routing/htmlRoutes.js');
+var apiRoutes = require('./app/routing/apiRoutes.js');
+
+app.use(express.static('app/public'));
+apiRoutes(app);
+htmlRoutes(app);
 
 //START SERVER
 // ====================================================================
