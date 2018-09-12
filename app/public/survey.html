@@ -134,6 +134,25 @@
             Submit</button>
         <hr>
     </div>
+
+    <!-- modal goes here -->
+    <div class="modal" id="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h2 class="modal-title">Your Profile</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body" id="modal-body">
+                
+                </div>
+                
+            </div>
+            </div>
+        </div>
+
     <script type="text/javascript">
       
         $("#submit").on("click", function(event) {
@@ -149,16 +168,28 @@
                 newFriend.scores.push(score);
             };
 
-
-
           console.log(newFriend);
-     
+
           $.post('/api/friends', newFriend).then(function (data) {
                 var matchName = data.name;
                 var matchPhoto = data.photo;
                 var modalHtml =
-                    `<h5>${matchName}</h5>` +
-                    `<img src='${matchPhoto}' alt='Photo of ${matchName}' style='max-height: 400px;' class='img-fluid img-thumbnail'>`;
+                    `<h3>${matchName}</h3>` +
+                    `<img src='${matchPhoto}' alt='Photo of ${matchName}' style='max-height: 400px;' class='img-fluid img-thumbnail'>` + 
+                    `<br>
+                    <h4>Score: '${parseFloat(data.scores[0]) + parseFloat(data.scores[1]) + parseFloat(data.scores[2]) + parseFloat(data.scores[3]) + parseFloat(data.scores[4]) + parseFloat(data.scores[5]) + parseFloat(data.scores[6]) + parseFloat(data.scores[7]) + parseFloat(data.scores[8]) + parseFloat(data.scores[9])}'</h1>`;
+                    // <ul>
+                    //     <li>'${parseFloat(data.scores[0])}'</li>
+                    //     <li>'${parseFloat(data.scores[1])}'</li>
+                    //     <li>'${parseFloat(data.scores[2])}'</li>
+                    //     <li>'${parseFloat(data.scores[3])}'</li>
+                    //     <li>'${parseFloat(data.scores[4])}'</li>
+                    //     <li>'${parseFloat(data.scores[5])}'</li>
+                    //     <li>'${parseFloat(data.scores[6])}'</li>
+                    //     <li>'${parseFloat(data.scores[7])}'</li>
+                    //     <li>'${parseFloat(data.scores[8])}'</li>
+                    //     <li>'${parseFloat(data.scores[9])}'</li>
+                    // </ul>`;
                 $('#modal-body').html(modalHtml);
                 $('#modal').modal('toggle');
             });
