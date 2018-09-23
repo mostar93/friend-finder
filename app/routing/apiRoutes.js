@@ -6,8 +6,7 @@ module.exports = function (app) {
 
 
   console.log("ROUTE IS WORKING");
-  console.log(friends);
-  console.log(app);
+ 
 
   app.get("/api/friends", function (req, res) {
     res.json(friends);
@@ -38,7 +37,7 @@ module.exports = function (app) {
         totalDifference = Math.abs(parseInt(newFriend.scores[j] - parseInt(friends[i].scores[j])));
         console.log(totalDifference);
         if (totalDifference <= bestMatch.friendDifference) {
-          console.log("IM LOST!!!!");
+          
           bestMatch.name = friends[i].name,
           bestMatch.photo = friends[i].photo,
           bestMatch.friendDifference = totalDifference
@@ -49,7 +48,7 @@ module.exports = function (app) {
     friends.push(newFriend);
 
 
-    console.log(bestMatch);
+    console.log("=============================\n" + "Name: " + bestMatch.name + "\nPhoto: " + bestMatch.photo + "\nFriend Difference: " + bestMatch.friendDifference + "\n=============================");
   });
 };
 

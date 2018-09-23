@@ -4,7 +4,7 @@ var path = require("path");
 //ROUTES 
 //===============================================================
 function htmlRoutes(app) {
-  console.log(app);
+  
     app.get('/survey', function(req,res){
       console.log("HTML ROUTE IS WORKING")
       
