@@ -14,7 +14,10 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
+        <script
+        src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
     </head>
     <body>
     <div class="container">
@@ -136,64 +139,94 @@
     </div>
 
     <!-- modal goes here -->
-    <div class="modal" id="modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h2 class="modal-title">Your Profile</h2>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body" id="modal-body">
-                
-                </div>
-                
+    <div id="resultsModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+    
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button class="close" data-dismiss="modal">&times;</button>
+              <h2 class="modal-title"><strong>Best Match</strong></h2>
             </div>
+            <div class="modal-body">
+              <h2 id="match-name"></h2>
+              <img id="match-img" src="#" alt="">
             </div>
+            <div class="modal-footer">
+              <button class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+    
         </div>
+      </div>
 
     <script type="text/javascript">
       
-        $("#submit").on("click", function(event) {
-          event.preventDefault();
-    
-          var newFriend = {
-                name: $("#name").val().trim(),
-                photo: $("#photo").val().trim(),
-                scores: []
-            };
-            for (var i = 1; i < 11; i++) {
-                var score = parseInt($(`#q${i}`).val());
-                newFriend.scores.push(score);
-            };
+        $("#submit").on("click", function (event) {
+                event.preventDefault();
 
-          console.log(newFriend);
+                function validateForm() {
+                    var isValid = true;
+                    $(".form-control").each(function () {
+                        if ($(this).val() === "") {
+                            isValid = false;
+                        }
+                    })
+                    return isValid;
+                }
+                if (validateForm()) {
+                    var newFriend = {
+                        name: $("#name").val().trim(),
+                        photo: $("#photo").val().trim(),
+                        scores: []
+                    }
+                    for (var i = 1; i < 11; i++) {
+                        var score = $(`#q${i}`).val();
+                        newFriend.scores.push(score);
+                    };
+                    console.log(newFriend);
+                    var currentURL = window.location.origin;
+                }
 
-          $.post('/api/friends', newFriend).then(function (data) {
-                var matchName = data.name;
-                var matchPhoto = data.photo;
-                var modalHtml =
-                    `<h3>${matchName}</h3>` +
-                    `<img src='${matchPhoto}' alt='Photo of ${matchName}' style='max-height: 400px;' class='img-fluid img-thumbnail'>` + 
-                    `<br>
-                    <h4>Score: '${parseFloat(data.scores[0]) + parseFloat(data.scores[1]) + parseFloat(data.scores[2]) + parseFloat(data.scores[3]) + parseFloat(data.scores[4]) + parseFloat(data.scores[5]) + parseFloat(data.scores[6]) + parseFloat(data.scores[7]) + parseFloat(data.scores[8]) + parseFloat(data.scores[9])}'</h1>`;
-                    // <ul>
-                    //     <li>'${parseFloat(data.scores[0])}'</li>
-                    //     <li>'${parseFloat(data.scores[1])}'</li>
-                    //     <li>'${parseFloat(data.scores[2])}'</li>
-                    //     <li>'${parseFloat(data.scores[3])}'</li>
-                    //     <li>'${parseFloat(data.scores[4])}'</li>
-                    //     <li>'${parseFloat(data.scores[5])}'</li>
-                    //     <li>'${parseFloat(data.scores[6])}'</li>
-                    //     <li>'${parseFloat(data.scores[7])}'</li>
-                    //     <li>'${parseFloat(data.scores[8])}'</li>
-                    //     <li>'${parseFloat(data.scores[9])}'</li>
-                    // </ul>`;
-                $('#modal-body').html(modalHtml);
-                $('#modal').modal('toggle');
+                $.post(currentURL + "/api/friends", newFriend, function (data) {
+                    console.log("working");
+                    console.log(newFriend);
+                    $("#resultsModal").modal("toggle");
+                })
             });
-        });
+
+
+
+
+
+
+
+
+        
+        //   $.post('/api/friends', newFriend).then(function (data) {
+        //         var matchName = data.name;
+        //         var matchPhoto = data.photo;
+        //         var modalHtml =
+        //             `<h3>${matchName}</h3>` +
+        //             `<img src='${matchPhoto}' alt='Photo of ${matchName}' style='max-height: 400px;' class='img-fluid img-thumbnail'>` + 
+        //             `<br>
+        //             <h4>Score: '${parseFloat(data.scores[0]) + parseFloat(data.scores[1]) + parseFloat(data.scores[2]) + parseFloat(data.scores[3]) + parseFloat(data.scores[4]) + parseFloat(data.scores[5]) + parseFloat(data.scores[6]) + parseFloat(data.scores[7]) + parseFloat(data.scores[8]) + parseFloat(data.scores[9])}'</h1>`;
+        //             // <ul>
+        //             //     <li>'${parseFloat(data.scores[0])}'</li>
+        //             //     <li>'${parseFloat(data.scores[1])}'</li>
+        //             //     <li>'${parseFloat(data.scores[2])}'</li>
+        //             //     <li>'${parseFloat(data.scores[3])}'</li>
+        //             //     <li>'${parseFloat(data.scores[4])}'</li>
+        //             //     <li>'${parseFloat(data.scores[5])}'</li>
+        //             //     <li>'${parseFloat(data.scores[6])}'</li>
+        //             //     <li>'${parseFloat(data.scores[7])}'</li>
+        //             //     <li>'${parseFloat(data.scores[8])}'</li>
+        //             //     <li>'${parseFloat(data.scores[9])}'</li>
+        //             // </ul>`;
+        //         $('#modal-body').html(modalHtml);
+        //         $('#modal').modal('toggle');
+        //     });
+        
 
       </script>
     

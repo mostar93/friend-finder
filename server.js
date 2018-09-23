@@ -8,16 +8,17 @@ var app = express();
 
 var PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
+// parse application/json
 app.use(bodyParser.json());
 
 
-var htmlRoutes = require('./app/routing/htmlRoutes.js');
-var apiRoutes = require('./app/routing/apiRoutes.js');
+require('./app/routing/apiRoutes')(app);
+require('./app/routing/htmlRoutes.js')(app);
 
-app.use(express.static('app/public'));
-apiRoutes(app);
-htmlRoutes(app);
+
+// app.use(express.static('app/public'));
+
 
 //START SERVER
 // ====================================================================
